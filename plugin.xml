@@ -1,40 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+  xmlns:rim="http://www.blackberry.com/ns/widgets" 
+  xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic-webview" version="4.0.1">
+  <name>cordova-plugin-ionic-webview</name>
+  <description>Ionic Web View Engine Plugin</description>
+  <license>Apache-2.0</license>
+  <keywords>cordova,wkwebview</keywords>
+  <repo>https://github.com/ionic-team/cordova-plugin-ionic-webview</repo>
 
-<!--
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
+  <engines>
+    <engine name="cordova" version=">=7.1.0"/>
+    <engine name="cordova-ios" version=">=4.0.0-dev"/>
+    <engine name="apple-ios" version=">=11.0"/>
+    <engine name="cordova-android" version=">=6.4.0"/>
+    <engine name="cordova-plugman" version=">=5.2.0"/>
+    <!-- needed for gradleReference support -->
+  </engines>
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
--->
-
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic-webview" version="4.0.1">
-    <name>cordova-plugin-ionic-webview</name>
-    <description>Ionic Web View Engine Plugin</description>
-    <license>Apache-2.0</license>
-    <keywords>cordova,wkwebview</keywords>
-    <repo>https://github.com/ionic-team/cordova-plugin-ionic-webview</repo>
-
-	<engines>
-        <engine name="cordova" version=">=7.1.0"/>
-        <engine name="cordova-ios" version=">=4.0.0-dev"/>
-        <engine name="apple-ios" version=">=11.0"/>
-        <engine name="cordova-android" version=">=6.4.0"/>
-	</engines>
 
   <js-module src="src/www/util.js" name="IonicWebView">
-      <clobbers target="Ionic.WebView"/>
+    <clobbers target="Ionic.WebView"/>
   </js-module>
 
   <platform name="android">
@@ -42,10 +27,19 @@
       <allow-navigation href="http://localhost/*"/>
       <allow-navigation href="https://localhost/*"/>
       <allow-navigation href="ionic://*"/>
+      <!-- <preference name="webView" value="org.crosswalk.engine.XWalkWebViewEngine"/> -->
+      <preference name="xwalkVersion" value="$XWALK_VERSION"/>
+      <preference name="xwalkLiteVersion" value="$XWALK_LITEVERSION"/>
+      <preference name="xwalkCommandLine" value="$XWALK_COMMANDLINE"/>
+      <preference name="xwalkMode" value="$XWALK_MODE" />
+      <preference name="xwalkMultipleApk" value="$XWALK_MULTIPLEAPK" />
+      <preference name="android-minSdkVersion" value="19" />
+
       <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine"/>
       <feature name="IonicWebView">
-          <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView"/>
+        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView"/>
       </feature>
+
     </config-file>
     <source-file src="src/android/com/ionicframework/cordova/webview/IonicWebViewEngine.java" target-dir="src/com/ionicframework/cordova/webview"/>
     <source-file src="src/android/com/ionicframework/cordova/webview/IonicWebView.java" target-dir="src/com/ionicframework/cordova/webview"/>
@@ -54,6 +48,38 @@
     <source-file src="src/android/com/ionicframework/cordova/webview/WebViewLocalServer.java" target-dir="src/com/ionicframework/cordova/webview"/>
     <preference name="ANDROID_SUPPORT_ANNOTATIONS_VERSION" default="27.+"/>
     <framework src="com.android.support:support-annotations:$ANDROID_SUPPORT_ANNOTATIONS_VERSION"/>
+
+    <preference name="XWALK_VERSION" default="23+"/>
+    <preference name="XWALK_LITEVERSION" default="xwalk_core_library_canary:17+"/>
+    <preference name="XWALK_COMMANDLINE" default="--disable-pull-to-refresh-effect"/>
+    <preference name="XWALK_MODE" default="embedded" />
+    <preference name="XWALK_MULTIPLEAPK" default="true" />
+    <config-file target="res/xml/config.xml" parent="/*">
+
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    </config-file>
+
+    <source-file src="src/android/org/crosswalk/engine/XWalkWebViewEngine.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkFileChooser.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkExposedJsApi.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkCordovaResourceClient.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkCordovaUiClient.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkCordovaView.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkCordovaCookieManager.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkCordovaClientCertRequest.java" target-dir="src/org/crosswalk/engine"/>
+    <source-file src="src/android/org/crosswalk/engine/XWalkCordovaHttpAuthHandler.java" target-dir="src/org/crosswalk/engine"/>
+
+    <framework src="src/android/xwalk.gradle" custom="true" type="gradleReference"/>
+
+    <hook type="after_plugin_install" src="hooks/after_plugin_install/000-shared_mode_special.js"/>
+    <hook type="before_plugin_uninstall" src="hooks/before_plugin_uninstall/000-shared_mode_special.js"/>
+    <hook type="after_build" src="hooks/after_build/000-build_64_bit.js"/>
+    <hook type="before_build" src="hooks/before_build/000-build_64_bit.js"/>
+
   </platform>
 
   <!-- ios -->
@@ -63,12 +89,12 @@
     </js-module>
 
     <config-file target="config.xml" parent="/*">
-        <allow-navigation href="ionic://*"/>
-        <preference name="deployment-target" value="11.0"/>
-        <feature name="IonicWebView">
-            <param name="ios-package" value="CDVWKWebViewEngine"/>
-        </feature>
-        <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine"/>
+      <allow-navigation href="ionic://*"/>
+      <preference name="deployment-target" value="11.0"/>
+      <feature name="IonicWebView">
+        <param name="ios-package" value="CDVWKWebViewEngine"/>
+      </feature>
+      <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine"/>
     </config-file>
 
     <framework src="WebKit.framework" weak="true"/>
