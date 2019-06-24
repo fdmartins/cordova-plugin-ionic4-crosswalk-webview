@@ -4,16 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.annotation.TargetApi;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 import org.apache.cordova.ConfigXmlParser;
 import org.apache.cordova.CordovaInterface;
@@ -23,19 +17,12 @@ import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaWebViewEngine;
 import org.apache.cordova.NativeToJsMessageQueue;
 import org.apache.cordova.PluginManager;
-import org.apache.cordova.engine.SystemWebViewClient;
-import org.apache.cordova.engine.SystemWebViewEngine;
 import org.apache.cordova.engine.SystemWebView;
-import org.crosswalk.engine.XWalkCordovaClientCertRequest;
+import org.crosswalk.engine.XWalkCordovaResourceClient;
 import org.crosswalk.engine.XWalkWebViewEngine;
-import org.xwalk.core.XWalkResourceClient;
-import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
-import org.xwalk.core.XWalkWebResourceRequest;
-import org.xwalk.core.XWalkWebResourceResponse;
-import org.xwalk.core.internal.XWalkClient;
 
-//SystemWebViewEngine  XWalkWebViewEngine
+
 public class IonicWebViewEngine extends XWalkWebViewEngine {
     public static final String TAG = "IonicWebViewEngine";
 
@@ -74,9 +61,9 @@ public class IonicWebViewEngine extends XWalkWebViewEngine {
         String scheme = preferences.getString("Scheme", "http");
         CDV_LOCAL_SERVER = scheme + "://" + hostname;
 
-        ServerClient serverClient = new ServerClient(webView, parser);
+        ServerClient serverClient = new ServerClient(this, parser);
 
-        localServer = new WebViewLocalServer(serverClient, cordova.getActivity(), hostname, true, parser, scheme);
+        localServer = new WebViewLocalServer(cordova.getActivity(), hostname, true, parser, scheme);
         localServer.hostAssets("www");
 
         //webView.setWebViewClient(new ServerClient(this, parser));
@@ -85,9 +72,11 @@ public class IonicWebViewEngine extends XWalkWebViewEngine {
 
         super.init(parentWebView, cordova, client, resourceApi, pluginManager, nativeToJsMessageQueue);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//      final WebSettings settings = webView.getSettings();
-//      int mode = preferences.getInteger("MixedContentMode", 0);
-//      settings.setMixedContentMode(mode);
+        /*
+            final WebSettings settings = webView.getSettings();
+            int mode = preferences.getInteger("MixedContentMode", 0);
+            settings.setMixedContentMode(mode);
+        */
         }
         SharedPreferences prefs = cordova.getActivity().getApplicationContext().getSharedPreferences(IonicWebView.WEBVIEW_PREFS_NAME, Activity.MODE_PRIVATE);
         String path = prefs.getString(IonicWebView.CDV_SERVER_PATH, null);
@@ -126,27 +115,26 @@ public class IonicWebViewEngine extends XWalkWebViewEngine {
         return preferences.getBoolean("DisableDeploy", false);
     }
 
-    //SystemWebViewClient
-    public class ServerClient extends XWalkResourceClient {
+    public class ServerClient extends XWalkCordovaResourceClient {
         private ConfigXmlParser parser;
 
-        public ServerClient(XWalkView xWalkView, ConfigXmlParser parser) {
-            super(xWalkView);
+        public ServerClient(XWalkWebViewEngine parentEngine, ConfigXmlParser parser) {
+            super(parentEngine);
             this.parser = parser;
         }
-
+        /*
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public XWalkWebResourceResponse shouldInterceptLoadRequest(XWalkView view, XWalkWebResourceRequest request) {
             return localServer.shouldInterceptRequest(request.getUrl(), request);
-
         }
+        */
 
-//    @TargetApi(Build.VERSION_CODES.KITKAT)
-//    @Override
-//    public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
-//      return localServer.shouldInterceptRequest(Uri.parse(url), null);
-//    }
+        //@TargetApi(Build.VERSION_CODES.KITKAT)
+        @Override
+        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
+            return localServer.shouldInterceptRequest(Uri.parse(url), null);
+        }
 
         @Override
         public void onLoadStarted(XWalkView view, String url) {

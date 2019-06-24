@@ -1,12 +1,9 @@
 /*
 Copyright 2015 Google Inc. All rights reserved.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,9 +20,6 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 
 import org.apache.cordova.ConfigXmlParser;
-import org.xwalk.core.XWalkResourceClient;
-import org.xwalk.core.XWalkWebResourceRequest;
-import org.xwalk.core.XWalkWebResourceResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +54,6 @@ public class WebViewLocalServer {
     private final UriMatcher uriMatcher;
     private final AndroidProtocolHandler protocolHandler;
     private final String authority;
-    public static XWalkResourceClient _xWalkResourceClient;
     private final String customScheme;
     // Whether we're serving local files or proxying (for example, when doing livereload on a
     // non-local endpoint (will be false in that case)
@@ -69,9 +62,7 @@ public class WebViewLocalServer {
     private final boolean html5mode;
     private ConfigXmlParser parser;
 
-    public String getAuthority() {
-        return authority;
-    }
+    public String getAuthority() { return authority; }
 
     /**
      * A handler that produces responses for paths on the virtual asset server.
@@ -169,13 +160,12 @@ public class WebViewLocalServer {
         }
     }
 
-    WebViewLocalServer(XWalkResourceClient xWalkResourceClient, Context context, String authority, boolean html5mode, ConfigXmlParser parser, String customScheme) {
+    WebViewLocalServer(Context context, String authority, boolean html5mode, ConfigXmlParser parser, String customScheme) {
         uriMatcher = new UriMatcher(null);
         this.html5mode = html5mode;
         this.parser = parser;
         this.protocolHandler = new AndroidProtocolHandler(context.getApplicationContext());
         this.authority = authority;
-        _xWalkResourceClient = xWalkResourceClient;
         this.customScheme = customScheme;
     }
 
@@ -196,7 +186,7 @@ public class WebViewLocalServer {
         return uri;
     }
 
-    private static XWalkWebResourceResponse createWebResourceResponse(String mimeType, String encoding, int statusCode, String reasonPhrase, Map<String, String> responseHeaders, InputStream data) {
+    private static WebResourceResponse createWebResourceResponse(String mimeType, String encoding, int statusCode, String reasonPhrase, Map<String, String> responseHeaders, InputStream data) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int finalStatusCode = statusCode;
             try {
@@ -206,11 +196,9 @@ public class WebViewLocalServer {
             } catch (IOException e) {
                 finalStatusCode = 500;
             }
-            return _xWalkResourceClient.createXWalkWebResourceResponse(mimeType, encoding, data, statusCode, reasonPhrase, responseHeaders);
-            //return new XWalkWebResourceResponse(mimeType, encoding, finalStatusCode, reasonPhrase, responseHeaders, data);
+            return new WebResourceResponse(mimeType, encoding, finalStatusCode, reasonPhrase, responseHeaders, data);
         } else {
-            return _xWalkResourceClient.createXWalkWebResourceResponse(mimeType,encoding,data);
-            //return new XWalkWebResourceResponse(mimeType, encoding, data);
+            return new WebResourceResponse(mimeType, encoding, data);
         }
     }
 
@@ -223,7 +211,7 @@ public class WebViewLocalServer {
      * @param uri the request Uri to process.
      * @return a response if the request URL had a matching handler, null if no handler was found.
      */
-    public XWalkWebResourceResponse shouldInterceptRequest(Uri uri, XWalkWebResourceRequest request) {
+    public WebResourceResponse shouldInterceptRequest(Uri uri, WebResourceRequest request) {
         PathHandler handler;
         synchronized (uriMatcher) {
             handler = (PathHandler) uriMatcher.match(uri);
@@ -249,7 +237,7 @@ public class WebViewLocalServer {
     }
 
 
-    private XWalkWebResourceResponse handleLocalRequest(Uri uri, PathHandler handler, XWalkWebResourceRequest request) {
+    private WebResourceResponse handleLocalRequest(Uri uri, PathHandler handler, WebResourceRequest request) {
         String path = uri.getPath();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && request != null && request.getRequestHeaders().get("Range") != null) {
             InputStream responseStream = new LollipopLazyInputStream(handler, uri);
@@ -262,7 +250,7 @@ public class WebViewLocalServer {
                 String[] parts = rangeString.split("=");
                 String[] streamParts = parts[1].split("-");
                 String fromRange = streamParts[0];
-                int range = totalRange - 1;
+                int range = totalRange-1;
                 if (streamParts.length > 1) {
                     range = Integer.parseInt(streamParts[1]);
                 }
@@ -316,12 +304,11 @@ public class WebViewLocalServer {
     /**
      * Instead of reading files from the filesystem/assets, proxy through to the URL
      * and let an external server handle it.
-     *
      * @param uri
      * @param handler
      * @return
      */
-    private XWalkWebResourceResponse handleProxyRequest(Uri uri, PathHandler handler) {
+    private WebResourceResponse handleProxyRequest(Uri uri, PathHandler handler) {
         try {
             String path = uri.getPath();
             URL url = new URL(uri.toString());
@@ -419,9 +406,9 @@ public class WebViewLocalServer {
      * <code>assetPath/...</code> will be available under
      * <code>http(s)://{domain}/{virtualAssetPath}/...</code>.
      *
-     * @param domain    custom domain on which the assets should be hosted (for example "example.com").
-     * @param assetPath the local path in the application's asset folder which will be made
-     *                  available by the server (for example "/www").
+     * @param domain           custom domain on which the assets should be hosted (for example "example.com").
+     * @param assetPath        the local path in the application's asset folder which will be made
+     *                         available by the server (for example "/www").
      * @return prefixes under which the assets are hosted.
      */
     public void hostAssets(final String domain,
@@ -571,7 +558,7 @@ public class WebViewLocalServer {
      * <code>http(s)://{uuid}.androidplatform.net/...</code>.
      *
      * @param basePath the local path in the application's data folder which will be made
-     *                 available by the server (for example "/www").
+     *                  available by the server (for example "/www").
      */
     public void hostFiles(final String basePath) {
         this.isAsset = false;
@@ -647,7 +634,7 @@ public class WebViewLocalServer {
         }
     }
 
-    public String getBasePath() {
+    public String getBasePath(){
         return this.basePath;
     }
 }
