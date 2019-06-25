@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" 
   xmlns:rim="http://www.blackberry.com/ns/widgets" 
-  xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic-webview" version="4.0.1">
-  <name>cordova-plugin-ionic-webview</name>
+  xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic4-crosswalk-webview" version="4.0.1">
+  <name>cordova-plugin-ionic4-crosswalk-webview</name>
   <description>Ionic Web View Engine Plugin</description>
   <license>Apache-2.0</license>
   <keywords>cordova,wkwebview</keywords>
-  <repo>https://github.com/ionic-team/cordova-plugin-ionic-webview</repo>
+  <repo>https://github.com/waitaction/cordova-plugin-ionic4-crosswalk-webview</repo>
 
   <engines>
     <engine name="cordova" version=">=7.1.0"/>
@@ -109,6 +109,6 @@
     <source-file src="src/ios/IONAssetHandler.m"/>
     <asset src="src/ios/wk-plugin.js" target="wk-plugin.js"/>
   </platform>
-  <issue>https://github.com/ionic-team/cordova-plugin-ionic-webview/issues</issue>
+  <issue>https://github.com/waitaction/cordova-plugin-ionic4-crosswalk-webview/issues</issue>
   <author>Ionic Team</author>
 </plugin>
