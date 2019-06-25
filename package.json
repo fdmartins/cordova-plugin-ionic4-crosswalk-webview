@@ -1,5 +1,5 @@
 {
-  "name": "cordova-plugin-ionic-webview",
+  "name": "cordova-plugin-ionic4-crosswalk-webview",
   "version": "4.0.1",
   "description": "Ionic Web View Engine Plugin",
   "scripts": {
@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/cordova-plugin-ionic-webview"
+    "url": "https://github.com/waitaction/cordova-plugin-ionic4-crosswalk-webview"
   },
   "bugs": {
-    "url": "https://github.com/ionic-team/cordova-plugin-ionic-webview/issues"
+    "url": "https://github.com/waitaction/cordova-plugin-ionic4-crosswalk-webview/issues"
   },
   "keywords": [
     "cordova",
     "wkwebview"
   ],
-  "author": "Ionic Team",
+  "author": "Ionic Team && crosswalkWebview",
   "license": "Apache-2.0",
   "engines": {
     "cordovaDependencies": {

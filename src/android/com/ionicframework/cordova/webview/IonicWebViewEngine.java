@@ -139,16 +139,17 @@ public class IonicWebViewEngine extends XWalkWebViewEngine {
         @Override
         public void onLoadStarted(XWalkView view, String url) {
             super.onLoadStarted(view, url);
-            String launchUrl = parser.getLaunchUrl();
-            if (!launchUrl.contains(WebViewLocalServer.httpsScheme) && !launchUrl.contains(WebViewLocalServer.httpScheme) && url.equals(launchUrl)) {
-                view.stopLoading();
-                // When using a custom scheme the app won't load if server start url doesn't end in /
-                String startUrl = CDV_LOCAL_SERVER;
-                if (!CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpsScheme) && !CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpScheme)) {
-                    startUrl += "/";
-                }
-                view.loadUrl(startUrl);
-            }
+            /**为了保留加载 file:// 协议 ，以下代码暂时被注释掉*/
+            // String launchUrl = parser.getLaunchUrl();
+            // if (!launchUrl.contains(WebViewLocalServer.httpsScheme) && !launchUrl.contains(WebViewLocalServer.httpScheme) && url.equals(launchUrl)) {
+            //     view.stopLoading();
+            //     // When using a custom scheme the app won't load if server start url doesn't end in /
+            //     String startUrl = CDV_LOCAL_SERVER;
+            //     if (!CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpsScheme) && !CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpScheme)) {
+            //         startUrl += "/";
+            //     }
+            //     view.loadUrl(startUrl);
+            // }
         }
 
         @Override
