@@ -4,9 +4,9 @@
 
 在ionic4之前的项目中，为了兼容低版本的安卓系统，采用了 cordova-plugin-crosswalk-webview 插件，使用了file:// 协议访问页面。
 
-为了使 cordova-plugin-ionic-webview 与 cordova-plugin-crosswalk-webview 两者融合，故开发了此插件。
+为了使cordova ionic4项目中的 `file://` 与 `http://` 兼容，这里将两个插件 `cordova-plugin-ionic-webview` 与 `cordova-plugin-crosswalk-webview` 融合，开发了融合后的此插件。
 
-使用之前需移除cordova-plugin-ionic-webview 与 cordova-plugin-crosswalk-webview
+使用之前需移除 `cordova-plugin-ionic-webview` 与 `cordova-plugin-crosswalk-webview`
 
 ``` shell
 cordova plugin remove cordova-plugin-crosswalk-webview
@@ -19,6 +19,17 @@ cordova plugin remove cordova-plugin-ionic-webview
 cordova plugin add cordova-plugin-ionic4-crosswalk-webview
 ```
 
+然后在你的启动页面index.html中写以下脚本
+
+``` html
+<head>
+  <script>
+    if (window.location.href.indexOf("file:") == 0){
+      window.location.href = "http://localhost/";
+    }
+  </script>
+</head>
+```
 
 <!--
 # license: Licensed to the Apache Software Foundation (ASF) under one
