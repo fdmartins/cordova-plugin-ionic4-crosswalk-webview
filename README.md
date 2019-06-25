@@ -1,3 +1,25 @@
+# 写在前面
+
+在cordova ionic4项目中，由于ionic团队采用了UI与Angular框架分离，原来在cordova file:// 协议加载页面已不适用，改用了http协议，因此需要安装ionic官方的 cordova-plugin-ionic-webview 插件。
+
+在ionic4之前的项目中，为了兼容低版本的安卓系统，采用了 cordova-plugin-crosswalk-webview 插件，使用了file:// 协议访问页面。
+
+为了使 cordova-plugin-ionic-webview 与 cordova-plugin-crosswalk-webview 两者融合，故开发了此插件。
+
+使用之前需移除cordova-plugin-ionic-webview 与 cordova-plugin-crosswalk-webview
+
+``` shell
+cordova plugin remove cordova-plugin-crosswalk-webview
+cordova plugin remove cordova-plugin-ionic-webview
+```
+
+安装cordova-plugin-ionic-webview 与 cordova-plugin-crosswalk-webview 融合的插件
+
+``` shell
+cordova plugin add cordova-plugin-ionic4-crosswalk-webview
+```
+
+
 <!--
 # license: Licensed to the Apache Software Foundation (ASF) under one
 #         or more contributor license agreements.  See the NOTICE file
