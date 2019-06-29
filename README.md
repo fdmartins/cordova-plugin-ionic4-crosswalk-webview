@@ -22,7 +22,7 @@ cordova plugin remove cordova-plugin-ionic-webview
 安装插件
 
 ``` shell
-cordova plugin add cordova-plugin-ionic4-crosswalk-webview 
+cordova plugin add cordova-plugin-ionic4-crosswalk-webview
 ```
 
 ## 如何使用
@@ -33,7 +33,7 @@ cordova plugin add cordova-plugin-ionic4-crosswalk-webview
 <head>
   <script>
     if (window.location.href.indexOf("file:") == 0){
-      window.location.href = "http://localhost/";
+      window.location.href = "http://localhost";
     }
   </script>
 </head>
