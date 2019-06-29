@@ -35,20 +35,11 @@ public class IonicWebViewEngine extends XWalkWebViewEngine {
      * Used when created via reflection.
      */
     public IonicWebViewEngine(Context context, CordovaPreferences preferences) {
-        super(new SystemWebView(context), preferences);
-        //super(new SystemWebView(context), preferences);
+        super(context, preferences);
         Log.d(TAG, "Ionic Web View Engine Starting Right Up 1...");
     }
 
-    public IonicWebViewEngine(SystemWebView webView) {
-        super(webView, null);
-        Log.d(TAG, "Ionic Web View Engine Starting Right Up 2...");
-    }
 
-    public IonicWebViewEngine(SystemWebView webView, CordovaPreferences preferences) {
-        super(webView, preferences);
-        Log.d(TAG, "Ionic Web View Engine Starting Right Up 3...");
-    }
 
     @Override
     public void init(CordovaWebView parentWebView, CordovaInterface cordova, final CordovaWebViewEngine.Client client,
@@ -122,15 +113,7 @@ public class IonicWebViewEngine extends XWalkWebViewEngine {
             super(parentEngine);
             this.parser = parser;
         }
-        /*
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        @Override
-        public XWalkWebResourceResponse shouldInterceptLoadRequest(XWalkView view, XWalkWebResourceRequest request) {
-            return localServer.shouldInterceptRequest(request.getUrl(), request);
-        }
-        */
 
-        //@TargetApi(Build.VERSION_CODES.KITKAT)
         @Override
         public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
             return localServer.shouldInterceptRequest(Uri.parse(url), null);
@@ -140,16 +123,16 @@ public class IonicWebViewEngine extends XWalkWebViewEngine {
         public void onLoadStarted(XWalkView view, String url) {
             super.onLoadStarted(view, url);
             /**为了保留加载 file:// 协议 ，以下代码暂时被注释掉*/
-            String launchUrl = parser.getLaunchUrl();
-            if (!launchUrl.contains(WebViewLocalServer.httpsScheme) && !launchUrl.contains(WebViewLocalServer.httpScheme) && url.equals(launchUrl)) {
-                view.stopLoading();
-                // When using a custom scheme the app won't load if server start url doesn't end in /
-                String startUrl = CDV_LOCAL_SERVER;
-                if (!CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpsScheme) && !CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpScheme)) {
-                    startUrl += "/";
-                }
-                view.loadUrl(startUrl);
-            }
+            // String launchUrl = parser.getLaunchUrl();
+            // if (!launchUrl.contains(WebViewLocalServer.httpsScheme) && !launchUrl.contains(WebViewLocalServer.httpScheme) && url.equals(launchUrl)) {
+            //     view.stopLoading();
+            //     // When using a custom scheme the app won't load if server start url doesn't end in /
+            //     String startUrl = CDV_LOCAL_SERVER;
+            //     if (!CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpsScheme) && !CDV_LOCAL_SERVER.startsWith(WebViewLocalServer.httpScheme)) {
+            //         startUrl += "/";
+            //     }
+            //     view.loadUrl(startUrl);
+            // }
         }
 
         @Override

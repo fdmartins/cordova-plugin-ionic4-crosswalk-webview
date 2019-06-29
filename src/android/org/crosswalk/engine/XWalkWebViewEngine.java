@@ -48,9 +48,6 @@ import org.apache.cordova.ICordovaCookieManager;
 import org.apache.cordova.NativeToJsMessageQueue;
 import org.apache.cordova.PluginEntry;
 import org.apache.cordova.PluginManager;
-import org.apache.cordova.engine.SystemWebViewClient;
-import org.apache.cordova.engine.SystemWebViewEngine;
-import org.apache.cordova.engine.SystemWebView;
 import org.xwalk.core.XWalkActivityDelegate;
 import org.xwalk.core.XWalkNavigationHistory;
 import org.xwalk.core.XWalkView;
@@ -59,7 +56,7 @@ import org.xwalk.core.XWalkGetBitmapCallback;
 /**
  * Glue class between CordovaWebView (main Cordova logic) and XWalkCordovaView (the actual View).
  */
-public class XWalkWebViewEngine extends SystemWebViewEngine implements CordovaWebViewEngine {
+public class XWalkWebViewEngine implements CordovaWebViewEngine {
 
     public static final String TAG = "XWalkWebViewEngine";
     public static final String XWALK_USER_AGENT = "xwalkUserAgent";
@@ -84,7 +81,6 @@ public class XWalkWebViewEngine extends SystemWebViewEngine implements CordovaWe
 
     /** Used when created via reflection. */
     public XWalkWebViewEngine(Context context, CordovaPreferences preferences) {
-        super(context,preferences);
         this.preferences = preferences;
         Runnable cancelCommand = new Runnable() {
             @Override
@@ -144,11 +140,6 @@ public class XWalkWebViewEngine extends SystemWebViewEngine implements CordovaWe
         activityDelegate = new XWalkActivityDelegate((Activity) context, cancelCommand, completeCommand);
 
         webView = new XWalkCordovaView(context, preferences);
-    }
-
-    public XWalkWebViewEngine(SystemWebView systemWebView, CordovaPreferences preferences) {
-        //super(systemWebView,preferences);
-        this(systemWebView.getContext(),preferences);
     }
 
     // Use two-phase init so that the control will work with XML layouts.
@@ -372,6 +363,4 @@ public class XWalkWebViewEngine extends SystemWebViewEngine implements CordovaWe
         }
         return true;
     }
-
-
 }

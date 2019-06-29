@@ -15,8 +15,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.ionicframework.cordova.webview.IonicWebViewEngine;
-
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaWebViewEngine;
@@ -133,10 +131,5 @@ public class XWalkCordovaView extends XWalkView implements CordovaWebViewEngine.
         if (parentEngine != null && parentEngine.isXWalkReady()) {
             super.setBackgroundColor(color);
         }
-
     }
-
-//    public void setWebViewClient(IonicWebViewEngine.ServerClient serverClient) {
-//        this.setUIClient(serverClient);
-//    }
 }
