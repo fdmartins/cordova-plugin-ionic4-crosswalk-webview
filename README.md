@@ -39,7 +39,7 @@ cordova plugin add cordova-plugin-ionic4-crosswalk-webview
 </head>
 ```
 
-## 如何试
+## 如何调试
 
 由于crosswalk编译成了不同架构的apk，因此原来的命令`ionic cordova run android --emulator`不再适用，请改用以下命令调试apk
 
