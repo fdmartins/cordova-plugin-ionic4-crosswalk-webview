@@ -14,7 +14,7 @@
 
 使用前需卸载`cordova-plugin-ionic-webview`与`cordova-plugin-crosswalk-webview`
 
-``` shell
+``` shell
 cordova plugin remove cordova-plugin-crosswalk-webview
 cordova plugin remove cordova-plugin-ionic-webview
 ```
