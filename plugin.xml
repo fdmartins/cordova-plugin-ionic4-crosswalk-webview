@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" 
-  xmlns:rim="http://www.blackberry.com/ns/widgets" 
-  xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic4-crosswalk-webview" version="4.0.5">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic4-crosswalk-webview" version="4.1.3">
   <name>cordova-plugin-ionic4-crosswalk-webview</name>
-  <description>Ionic Web View Engine Plugin</description>
+  <description>Ionic Crosswalk Web View Engine Plugin</description>
   <license>Apache-2.0</license>
   <keywords>cordova,wkwebview</keywords>
   <repo>https://github.com/waitaction/cordova-plugin-ionic4-crosswalk-webview</repo>
-
   <engines>
     <engine name="cordova" version=">=7.1.0"/>
     <engine name="cordova-ios" version=">=4.0.0-dev"/>
@@ -16,12 +13,9 @@
     <engine name="cordova-plugman" version=">=5.2.0"/>
     <!-- needed for gradleReference support -->
   </engines>
-
-
   <js-module src="src/www/util.js" name="IonicWebView">
     <clobbers target="Ionic.WebView"/>
   </js-module>
-
   <platform name="android">
     <config-file target="config.xml" parent="/*">
       <allow-navigation href="http://localhost/*"/>
@@ -31,15 +25,13 @@
       <preference name="xwalkVersion" value="$XWALK_VERSION"/>
       <preference name="xwalkLiteVersion" value="$XWALK_LITEVERSION"/>
       <preference name="xwalkCommandLine" value="$XWALK_COMMANDLINE"/>
-      <preference name="xwalkMode" value="$XWALK_MODE" />
-      <preference name="xwalkMultipleApk" value="$XWALK_MULTIPLEAPK" />
-      <preference name="android-minSdkVersion" value="19" />
-
-      <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine"/>
+      <preference name="xwalkMode" value="$XWALK_MODE"/>
+      <preference name="xwalkMultipleApk" value="$XWALK_MULTIPLEAPK"/>
+      <preference name="android-minSdkVersion" value="19"/>
+      <preference name="webView" value="com.lifang123.cordova.webview.IonicCrosswalkWebViewEngine"/>
       <feature name="IonicWebView">
         <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView"/>
       </feature>
-
     </config-file>
     <source-file src="src/android/com/ionicframework/cordova/webview/IonicWebViewEngine.java" target-dir="src/com/ionicframework/cordova/webview"/>
     <source-file src="src/android/com/ionicframework/cordova/webview/IonicWebView.java" target-dir="src/com/ionicframework/cordova/webview"/>
@@ -49,20 +41,18 @@
     <preference name="ANDROID_SUPPORT_ANNOTATIONS_VERSION" default="27.+"/>
     <framework src="com.android.support:support-annotations:$ANDROID_SUPPORT_ANNOTATIONS_VERSION"/>
 
+    <source-file src="src/android/com/lifang123/cordova/webview/IonicCrosswalkWebViewEngine.java" target-dir="src/com/lifang123/cordova/webview"/>
+    
     <preference name="XWALK_VERSION" default="23+"/>
     <preference name="XWALK_LITEVERSION" default="xwalk_core_library_canary:17+"/>
     <preference name="XWALK_COMMANDLINE" default="--disable-pull-to-refresh-effect"/>
-    <preference name="XWALK_MODE" default="embedded" />
-    <preference name="XWALK_MULTIPLEAPK" default="true" />
-    <config-file target="res/xml/config.xml" parent="/*">
-
-    </config-file>
-
+    <preference name="XWALK_MODE" default="embedded"/>
+    <preference name="XWALK_MULTIPLEAPK" default="true"/>
+    <config-file target="res/xml/config.xml" parent="/*"></config-file>
     <config-file target="AndroidManifest.xml" parent="/*">
-      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     </config-file>
-
     <source-file src="src/android/org/crosswalk/engine/XWalkWebViewEngine.java" target-dir="src/org/crosswalk/engine"/>
     <source-file src="src/android/org/crosswalk/engine/XWalkFileChooser.java" target-dir="src/org/crosswalk/engine"/>
     <source-file src="src/android/org/crosswalk/engine/XWalkExposedJsApi.java" target-dir="src/org/crosswalk/engine"/>
@@ -72,22 +62,18 @@
     <source-file src="src/android/org/crosswalk/engine/XWalkCordovaCookieManager.java" target-dir="src/org/crosswalk/engine"/>
     <source-file src="src/android/org/crosswalk/engine/XWalkCordovaClientCertRequest.java" target-dir="src/org/crosswalk/engine"/>
     <source-file src="src/android/org/crosswalk/engine/XWalkCordovaHttpAuthHandler.java" target-dir="src/org/crosswalk/engine"/>
-
     <framework src="src/android/xwalk.gradle" custom="true" type="gradleReference"/>
-
     <hook type="after_plugin_install" src="hooks/after_plugin_install/000-shared_mode_special.js"/>
     <hook type="before_plugin_uninstall" src="hooks/before_plugin_uninstall/000-shared_mode_special.js"/>
     <hook type="after_build" src="hooks/after_build/000-build_64_bit.js"/>
     <hook type="before_build" src="hooks/before_build/000-build_64_bit.js"/>
-
   </platform>
-
+  
   <!-- ios -->
   <platform name="ios">
     <js-module src="src/www/ios/ios-wkwebview-exec.js" name="ios-wkwebview-exec">
       <clobbers target="cordova.exec"/>
     </js-module>
-
     <config-file target="config.xml" parent="/*">
       <allow-navigation href="ionic://*"/>
       <preference name="deployment-target" value="11.0"/>
@@ -96,9 +82,7 @@
       </feature>
       <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine"/>
     </config-file>
-
     <framework src="WebKit.framework" weak="true"/>
-
     <header-file src="src/ios/CDVWKWebViewEngine.h"/>
     <source-file src="src/ios/CDVWKWebViewEngine.m"/>
     <header-file src="src/ios/CDVWKWebViewUIDelegate.h"/>
@@ -109,6 +93,7 @@
     <source-file src="src/ios/IONAssetHandler.m"/>
     <asset src="src/ios/wk-plugin.js" target="wk-plugin.js"/>
   </platform>
+
   <issue>https://github.com/waitaction/cordova-plugin-ionic4-crosswalk-webview/issues</issue>
-  <author>Ionic Team</author>
+  <author>Ionic Team And Crosswalk Team</author>
 </plugin>
