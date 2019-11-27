@@ -1,6 +1,9 @@
 # 前言
 
-该插件的功能是在`cordova ionic4`项目中使用`cordova-plugin-crosswalk-webview`浏览器内核
+该插件的功能是在`cordova ionic4`项目中使用`cordova-plugin-crosswalk-webview`浏览器内核。
+
+在`android sdk 24 以下的安卓系统`，默认使用的是`crosswalk webview`浏览器内核。
+在`android sdk 24及以上的安卓系统`，使用的是安卓系统内置的高版本浏览器内核。
 
 ## 介绍
 
