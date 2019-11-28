@@ -23,6 +23,13 @@ cordova plugin remove cordova-plugin-ionic-webview
 #### 安装插件
 
 
+**`android sdk 24 以下`，使用`crosswalk webview`浏览器内核;
+`android sdk 24及以上`，使用安卓系统内置的高版本浏览器内核。**
+``` shell
+cordova plugin add cordova-plugin-ionic4-crosswalk-webview --variable WEBVIEW_ENGINE=AUTO
+```
+---
+
 **始终使用CrosswalkWebView内核**
 
 ``` shell
@@ -35,13 +42,7 @@ cordova plugin add cordova-plugin-ionic4-crosswalk-webview --variable WEBVIEW_EN
 ``` shell
 cordova plugin add cordova-plugin-ionic4-crosswalk-webview --variable WEBVIEW_ENGINE=SYSTEM
 ```
----
 
-**`android sdk 24 以下`，使用`crosswalk webview`浏览器内核,
-`android sdk 24及以上`，使用安卓系统内置的高版本浏览器内核。**
-``` shell
-cordova plugin add cordova-plugin-ionic4-crosswalk-webview --variable WEBVIEW_ENGINE=AUTO
-```
 
 ## 如何使用
 
