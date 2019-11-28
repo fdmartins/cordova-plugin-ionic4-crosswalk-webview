@@ -27,6 +27,9 @@ var WebView = {
   },
   useCrosswalkWebViewAtTheNextStartup:function(){
     exec(null, null, 'IonicWebView', 'useCrosswalkWebViewAtTheNextStartup', []);
+  },
+  useSystemWebViewAtTheNextStartup:function(){
+    exec(null, null, 'IonicWebView', 'useSystemWebViewAtTheNextStartup', []);
   }
 }
 

@@ -19,7 +19,9 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
 import com.ionicframework.cordova.webview.IonicWebViewEngine;
+
 import org.apache.cordova.ConfigXmlParser;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPreferences;
@@ -36,34 +38,31 @@ import org.apache.cordova.engine.SystemWebView;
 public class IonicCrosswalkWebViewEngine implements CordovaWebViewEngine {
 
     public static final String TAG = "IonicWebViewEngine";
+
     public IonicWebViewEngine ionicWebViewEngine;
     public CrosswalkWebViewEngine crosswalkWebViewEngine;
     public boolean isUseCrosswalkWebView;
 
     public IonicCrosswalkWebViewEngine(Context context, CordovaPreferences preferences) {
-
-
         try {
+            if (android.os.Build.VERSION.SDK_INT >= 24) {
+                isUseCrosswalkWebView = false;
+            } else {
+                isUseCrosswalkWebView = true;
+            }
+            SharedPreferences sharedPreferences = context.getSharedPreferences("use_webview_engine", 0);
+            String useWebViewEngine = sharedPreferences.getString("WEBVIEW_ENGINE", "AUTO");
             ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), context.getPackageManager().GET_META_DATA);
             Bundle bundle = appInfo.metaData;
             String action = bundle.getString("WEBVIEW_ENGINE");
-
-            switch (action) {
-                case "CROSSWALK":
-                    isUseCrosswalkWebView = true;
-                    break;
-                case "SYSTEM":
-                    isUseCrosswalkWebView = false;
-                    break;
-                default:
-                    if (android.os.Build.VERSION.SDK_INT >= 24) {
-                        isUseCrosswalkWebView = false;
-                    } else {
-                        isUseCrosswalkWebView = true;
-                    }
-                    break;
-            }
             Log.i(TAG, "meta-data:" + action);
+            if (useWebViewEngine == "CROSSWALK" || action == "CROSSWALK") {
+                isUseCrosswalkWebView = true;
+            } else {
+                if (useWebViewEngine == "SYSTEM" || action == "SYSTEM") {
+                    isUseCrosswalkWebView = false;
+                }
+            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
