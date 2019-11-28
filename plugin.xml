@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic4-crosswalk-webview" version="4.1.5">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-ionic4-crosswalk-webview" version="4.1.6">
   <name>cordova-plugin-ionic4-crosswalk-webview</name>
   <description>Ionic Crosswalk Web View Engine Plugin</description>
   <license>Apache-2.0</license>
