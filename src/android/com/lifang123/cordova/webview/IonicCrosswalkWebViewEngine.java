@@ -3,11 +3,14 @@ package com.lifang123.cordova.webview;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
@@ -16,9 +19,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-
 import com.ionicframework.cordova.webview.IonicWebViewEngine;
-
 import org.apache.cordova.ConfigXmlParser;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPreferences;
@@ -34,22 +35,39 @@ import org.apache.cordova.engine.SystemWebView;
 
 public class IonicCrosswalkWebViewEngine implements CordovaWebViewEngine {
 
-    /*
-     * 1.判断安卓sdk版本
-     * 2.小于24的就使用crosswalk webview
-     * */
-
     public static final String TAG = "IonicWebViewEngine";
     public IonicWebViewEngine ionicWebViewEngine;
     public CrosswalkWebViewEngine crosswalkWebViewEngine;
     public boolean isUseCrosswalkWebView;
 
     public IonicCrosswalkWebViewEngine(Context context, CordovaPreferences preferences) {
-        if (android.os.Build.VERSION.SDK_INT >= 24) {
-            isUseCrosswalkWebView = false;
-        } else {
-            isUseCrosswalkWebView = true;
+
+
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), context.getPackageManager().GET_META_DATA);
+            Bundle bundle = appInfo.metaData;
+            String action = bundle.getString("WEBVIEW_ENGINE");
+
+            switch (action) {
+                case "CROSSWALK":
+                    isUseCrosswalkWebView = true;
+                    break;
+                case "SYSTEM":
+                    isUseCrosswalkWebView = false;
+                    break;
+                default:
+                    if (android.os.Build.VERSION.SDK_INT >= 24) {
+                        isUseCrosswalkWebView = false;
+                    } else {
+                        isUseCrosswalkWebView = true;
+                    }
+                    break;
+            }
+            Log.i(TAG, "meta-data:" + action);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
+
 
         if (isUseCrosswalkWebView) {
             crosswalkWebViewEngine = new CrosswalkWebViewEngine(context, preferences);
@@ -60,11 +78,13 @@ public class IonicCrosswalkWebViewEngine implements CordovaWebViewEngine {
         Log.d(TAG, "Ionic Web View Engine Starting Right Up 1...");
     }
 
-
     @Override
-    public void init(CordovaWebView parentWebView, CordovaInterface cordova, Client client, CordovaResourceApi resourceApi, PluginManager pluginManager, NativeToJsMessageQueue nativeToJsMessageQueue) {
+    public void init(CordovaWebView parentWebView, CordovaInterface cordova, Client client,
+                     CordovaResourceApi resourceApi, PluginManager pluginManager,
+                     NativeToJsMessageQueue nativeToJsMessageQueue) {
         if (isUseCrosswalkWebView) {
-            crosswalkWebViewEngine.init(parentWebView, cordova, client, resourceApi, pluginManager, nativeToJsMessageQueue);
+            crosswalkWebViewEngine.init(parentWebView, cordova, client, resourceApi, pluginManager,
+                    nativeToJsMessageQueue);
         } else {
             ionicWebViewEngine.init(parentWebView, cordova, client, resourceApi, pluginManager, nativeToJsMessageQueue);
         }
@@ -177,7 +197,6 @@ public class IonicCrosswalkWebViewEngine implements CordovaWebViewEngine {
             ionicWebViewEngine.destroy();
         }
     }
-
 
     @Override
     public void evaluateJavascript(String js, ValueCallback<String> callback) {

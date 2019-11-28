@@ -1,7 +1,7 @@
 {
     "name": "cordova-plugin-ionic4-crosswalk-webview",
     "version": "4.1.5",
-    "description": "Ionic Web View Engine Plugin",
+    "description": "Ionic Crosswalk Web View Engine Plugin",
     "scripts": {
         "sync_plugin_xml": "sync-cordova-xml package.json plugin.xml --output=plugin.xml",
         "version": "npm run sync_plugin_xml && git add plugin.xml",
@@ -18,7 +18,7 @@
         "cordova",
         "wkwebview"
     ],
-    "author": "Ionic Team && crosswalkWebview",
+    "author": "Ionic Team && CrosswalkWebview Team",
     "license": "Apache-2.0",
     "engines": {
         "cordovaDependencies": {

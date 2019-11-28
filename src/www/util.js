@@ -24,6 +24,9 @@ var WebView = {
   },
   persistServerBasePath: function() {
     exec(null, null, 'IonicWebView', 'persistServerBasePath', []);
+  },
+  useCrosswalkWebViewAtTheNextStartup:function(){
+    exec(null, null, 'IonicWebView', 'useCrosswalkWebViewAtTheNextStartup', []);
   }
 }
 
