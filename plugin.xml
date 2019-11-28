@@ -43,6 +43,7 @@
     <preference name="ANDROID_SUPPORT_ANNOTATIONS_VERSION" default="27.+"/>
     <framework src="com.android.support:support-annotations:$ANDROID_SUPPORT_ANNOTATIONS_VERSION"/>
     <source-file src="src/android/com/lifang123/cordova/webview/IonicCrosswalkWebViewEngine.java" target-dir="src/com/lifang123/cordova/webview"/>
+    <source-file src="src/android/com/lifang123/cordova/webview/IonicCrosswalkWebView.java" target-dir="src/com/lifang123/cordova/webview"/>
     <source-file src="src/android/com/lifang123/cordova/webview/CrosswalkWebViewEngine.java" target-dir="src/com/lifang123/cordova/webview"/>
     <preference name="XWALK_VERSION" default="23+"/>
     <preference name="XWALK_LITEVERSION" default="xwalk_core_library_canary:17+"/>
