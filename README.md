@@ -2,8 +2,6 @@
 
 该插件的功能是在`cordova ionic4`项目中使用`cordova-plugin-crosswalk-webview`浏览器内核。
 
-在`android sdk 24 以下的安卓系统`，默认使用的是`crosswalk webview`浏览器内核。
-在`android sdk 24及以上的安卓系统`，使用的是安卓系统内置的高版本浏览器内核。
 
 ## 介绍
 
@@ -22,10 +20,27 @@ cordova plugin remove cordova-plugin-crosswalk-webview
 cordova plugin remove cordova-plugin-ionic-webview
 ```
 
-安装插件
+#### 安装插件
+
+
+**始终使用CrosswalkWebView内核**
 
 ``` shell
-cordova plugin add cordova-plugin-ionic4-crosswalk-webview
+cordova plugin add cordova-plugin-ionic4-crosswalk-webview --variable WEBVIEW_ENGINE=CROSSWALK
+```
+
+---
+
+**始终使用SystemWebView内核**
+``` shell
+cordova plugin add cordova-plugin-ionic4-crosswalk-webview --variable WEBVIEW_ENGINE=SYSTEM
+```
+---
+
+**`android sdk 24 以下`，使用`crosswalk webview`浏览器内核,
+`android sdk 24及以上`，使用安卓系统内置的高版本浏览器内核。**
+``` shell
+cordova plugin add cordova-plugin-ionic4-crosswalk-webview --variable WEBVIEW_ENGINE=AUTO
 ```
 
 ## 如何使用
@@ -35,11 +50,25 @@ cordova plugin add cordova-plugin-ionic4-crosswalk-webview
 ``` html
 <head>
   <script>
+    // 在加载cordova.js之前调用
     if (window.location.href.indexOf("file:") == 0){
       window.location.href = "http://localhost";
     }
   </script>
 </head>
+```
+
+#### 切换内核
+
+
+``` js
+//在下次启动APP时使用CrosswalkWebView内核后
+Ionic.WebView.useCrosswalkWebViewAtTheNextStartup();
+```
+
+``` js
+//在下次启动APP时使用SystemkWebView内核
+Ionic.WebView.useSystemWebViewAtTheNextStartup();
 ```
 
 ## 如何调试

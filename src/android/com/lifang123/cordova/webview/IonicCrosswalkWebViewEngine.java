@@ -56,10 +56,10 @@ public class IonicCrosswalkWebViewEngine implements CordovaWebViewEngine {
             Bundle bundle = appInfo.metaData;
             String action = bundle.getString("WEBVIEW_ENGINE");
             Log.i(TAG, "meta-data:" + action);
-            if (useWebViewEngine == "CROSSWALK" || action == "CROSSWALK") {
+            if (useWebViewEngine != null && (useWebViewEngine.equals("CROSSWALK") || action.equals("CROSSWALK"))) {
                 isUseCrosswalkWebView = true;
             } else {
-                if (useWebViewEngine == "SYSTEM" || action == "SYSTEM") {
+                if (useWebViewEngine != null && (useWebViewEngine.equals("SYSTEM") || action.equals("SYSTEM"))) {
                     isUseCrosswalkWebView = false;
                 }
             }
