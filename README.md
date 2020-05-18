@@ -2,6 +2,8 @@
 
 该插件的功能是在`cordova ionic4`项目中使用`cordova-plugin-crosswalk-webview`浏览器内核。
 
+> 目前只支持cordova-android@8.0.0或以下平台，高于cordova-android@8.0.0将出现启动空白情况
+
 
 ## 介绍
 
