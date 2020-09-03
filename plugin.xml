@@ -7,8 +7,8 @@
   <repo>https://github.com/waitaction/cordova-plugin-ionic4-crosswalk-webview</repo>
   <engines>
     <engine name="cordova" version=">=7.1.0"/>
-    <engine name="cordova-ios" version=">=4.0.0-dev"/>
-    <engine name="apple-ios" version=">=11.0"/>
+        <engine name="cordova-ios" version=">=4.0.0-dev"/>
+        <engine name="apple-ios" version=">=11.0"/>
     <engine name="cordova-android" version=">=6.4.0"/>
     <engine name="cordova-plugman" version=">=5.2.0"/><!-- needed for gradleReference support -->
   </engines>
@@ -70,19 +70,22 @@
     <hook type="after_build" src="hooks/after_build/000-build_64_bit.js"/>
     <hook type="before_build" src="hooks/before_build/000-build_64_bit.js"/>
   </platform><!-- ios -->
-  <platform name="ios">
+<platform name="ios">
     <js-module src="src/www/ios/ios-wkwebview-exec.js" name="ios-wkwebview-exec">
       <clobbers target="cordova.exec"/>
     </js-module>
+
     <config-file target="config.xml" parent="/*">
-      <allow-navigation href="ionic://*"/>
-      <preference name="deployment-target" value="11.0"/>
-      <feature name="IonicWebView">
-        <param name="ios-package" value="CDVWKWebViewEngine"/>
-      </feature>
-      <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine"/>
+        <allow-navigation href="ionic://*"/>
+        <preference name="deployment-target" value="11.0"/>
+        <feature name="IonicWebView">
+            <param name="ios-package" value="CDVWKWebViewEngine"/>
+        </feature>
+        <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine"/>
     </config-file>
+
     <framework src="WebKit.framework" weak="true"/>
+
     <header-file src="src/ios/CDVWKWebViewEngine.h"/>
     <source-file src="src/ios/CDVWKWebViewEngine.m"/>
     <header-file src="src/ios/CDVWKWebViewUIDelegate.h"/>
